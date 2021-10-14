@@ -1,1 +1,96 @@
+package carts;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import pack.models.Product;
+import pack.models.Product_model;
+
+
+@WebServlet("/cartadd")
+public class Cartadd extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		int spid=Integer.parseInt(request.getParameter("spid"));
+		int uqty=Integer.parseInt(request.getParameter("uqty"));
+		
+		Product_model pm=new Product_model();
+		Product k=pm.getproduct(spid);
+		
+		HashMap<String, String> single=new HashMap<String, String>();
+		single.put("pid", String.valueOf(spid));
+		single.put("qty", String.valueOf(uqty));
+		single.put("pname", k.getProductname());
+		single.put("price", k.getProductprice());
+		single.put("pdesc", k.getPdesc());
+		single.put("pimg", k.getImagepath());
+		single.put("subtotal", String.valueOf(uqty*Integer.parseInt(k.getProductprice())));
+		
+		HttpSession hs=request.getSession();
+		@SuppressWarnings("unchecked")
+		ArrayList<HashMap<String, String>> cart=((ArrayList<HashMap<String, String>>) hs.getAttribute("cart_info"));
+		
+		if(cart==null)
+		{
+			cart=new ArrayList<>();
+			cart.add(single);
+			hs.setAttribute("cart_info", cart);
+			//System.out.println("CART IS EMPTY");
+		}
+		else
+		{
+			int v=0;
+			//System.out.println("CART IS NOT EMPTY");
+			for(int i=0;i<cart.size();i++)
+			{
+				int x=Integer.parseInt(cart.get(i).get("pid"));
+				if(x==spid)
+				{
+					v=1;
+					int prevqty=Integer.parseInt(cart.get(i).get("qty"));
+					prevqty=prevqty+uqty;
+					int pp=Integer.parseInt(k.getProductprice());
+					double price=prevqty*pp;
+					cart.get(i).replace("qty", String.valueOf(prevqty));
+					cart.get(i).replace("subtotal", String.valueOf(price));
+					break;
+				}
+			}
+			
+			if(v==0)
+			{
+				cart.add(single);
+			}
+			hs.setAttribute("cart_info", cart);
+		}
+		double sum=0;
+    	String all_pnames="";
+		for(int i=0;i<cart.size();i++)
+		{
+			sum=sum+Double.parseDouble(cart.get(i).get("subtotal"));
+    		all_pnames+="_"+cart.get(i).get("pname");
+		}
+		hs.setAttribute("gross_amount", String.valueOf(sum));
+    	hs.setAttribute("all_pnames", all_pnames);
+		/*response.setContentType("text/html");
+		PrintWriter pw=response.getWriter();
+		pw.print("<pre>");
+		pw.println(hs.getAttribute("cart_info"));*/
+		response.sendRedirect("cart_display.jsp");
+		
+	}
+	
+
+}
