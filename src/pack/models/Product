@@ -1,0 +1,129 @@
+package pack.models;
+
+public class Product
+{
+	private int productid;
+	private String productname;
+	private String productprice;
+	private String quantity;
+	private String pdesc;
+	private String imagepath;
+	private String category;
+	private String pldesc;
+	
+	
+
+	public Product(int productid, String productname,String category,String productprice, String quantity, String pdesc,
+			String pldesc,String imagepath)
+	{
+		
+		this.productid = productid;
+		this.productname = productname;
+		this.productprice = productprice;
+		this.quantity = quantity;
+		this.pdesc = pdesc;
+		this.imagepath = imagepath;
+		this.category=category;
+		this.pldesc=pldesc;
+		
+	}
+
+	public Product(String productname,String category,String productprice, String quantity, String pdesc,String pldesc, String imagepath) 
+	{
+		
+		this.productname = productname;
+		this.productprice = productprice;
+		this.quantity = quantity;
+		this.pdesc = pdesc;
+		this.imagepath = imagepath;
+		this.category=category;
+		this.pldesc=pldesc;
+	}
+
+
+
+
+	public int getProductid()
+	{
+		return productid;
+	}
+
+	public void setProductid(int productid)
+	{
+		this.productid = productid;
+	}
+
+	public String getProductname()
+	{
+		return productname;
+	}
+
+	public void setProductname(String productname) 
+	{
+		this.productname = productname;
+	}
+
+	public String getProductprice()
+	{
+		return productprice;
+	}
+
+	public void setProductprice(String productprice) 
+	{
+		this.productprice = productprice;
+	}
+	public String getQuantity()
+	{
+		return quantity;
+	}
+
+	public void setQuantity(String quantity)
+	{
+		this.quantity = quantity;
+	}
+
+	public String getPdesc() 
+	{
+		return pdesc;
+	}
+
+	public void setPdesc(String pdesc) 
+	{
+		this.pdesc = pdesc;
+	}
+
+
+	public String getImagepath()
+	{
+		return imagepath;
+	}
+
+	public void setImagepath(String imagepath)
+	{
+		this.imagepath = imagepath;
+	}
+
+	public String getCategory() 
+	{
+		return category;
+	}
+
+	public void setCategory(String category)
+	{
+		this.category = category;
+	}
+
+	public String getPldesc() 
+	{
+		return pldesc;
+	}
+
+	public void setPldesc(String pldesc) 
+	{
+		this.pldesc = pldesc;
+	}
+
+	
+
+
+}
